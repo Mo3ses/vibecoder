@@ -41,6 +41,7 @@ button:focus-visible,select:focus-visible{outline:2px solid var(--kw);outline-of
 .brand h1 .cursor{display:inline-block;width:.55em;height:.95em;background:var(--kw);vertical-align:-.12em;margin-left:.12em;animation:blink 1.05s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
 .brand p{margin:8px 0 0;color:var(--muted);max-width:56ch;font-size:13.5px}
+.version{color:var(--muted);font-family:var(--mono);font-size:13px;font-weight:400;font-stretch:100%;margin-left:10px;vertical-align:middle;letter-spacing:0}
 .stars{color:var(--num);font-family:var(--mono);font-size:13px;margin-left:8px;vertical-align:middle;font-stretch:100%}
 .meters{display:flex;gap:22px;align-items:flex-end;flex-wrap:wrap}
 .meter .value{font-family:var(--mono);font-weight:800;font-stretch:75%;line-height:.95;font-variant-numeric:tabular-nums;display:block}
