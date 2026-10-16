@@ -76,6 +76,7 @@ const MODES = { standard: { output: 1, cost: 1 }, hardcore: { output: 0.75, cost
 const OFFLINE_CAP_SECONDS = 8 * 3600;
 const OFFLINE_EFFICIENCY = 0.5;
 const TICK_MS = 100;
+const REPOSITORY_URL = "https://github.com/uerjrodriguez-afk/vibecoder";
 
 /* ================= LOCALES ================= */
 
@@ -591,7 +592,8 @@ function runClear() {
   renderReadme(); renderChat(); renderAll(); save();
   showDialog({
     title: t("dialogs.clearedTitle"), reading: true,
-    html: t("dialogs.clearedText").map(p => "<p>" + escapeHtml(p) + "</p>").join(""),
+    html: t("dialogs.clearedText").map(p => "<p>" + escapeHtml(p) + "</p>").join("") +
+      '<p class="contribute">' + escapeHtml(t("dialogs.contribute")) + ' <a href="' + REPOSITORY_URL + '" target="_blank" rel="noopener">' + REPOSITORY_URL.replace("https://", "") + "</a></p>",
     buttons: [{ label: tf("dialogs.startWith", prestigeMultiplier()), style: "primary" }]
   });
 }

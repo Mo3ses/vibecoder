@@ -172,6 +172,7 @@ window.LOCALES.en = {
       "The texts are still in the library, marked as read. What stayed with you is the only part of this run that can't be bought again."
     ],
     startWith: x => "Start with tokens ×" + x,
+    contribute: "Have a pull request to improve the game? Send it at the link:",
     masterConfirmTitle: "Erase everything?",
     masterConfirmText: "The master reset erases the run, the stars, the texts you read, the game mode and the accepted terms. There is no undo.",
     eraseIt: "Erase it"

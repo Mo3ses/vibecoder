@@ -166,6 +166,7 @@ window.LOCALES["pt-BR"] = {
       "Os textos continuam na biblioteca, marcados como já lidos. O que ficou com você é a única parte desta partida que não se compra de novo."
     ],
     startWith: x => "Começar com tokens ×" + x,
+    contribute: "Tem uma pull request para melhorar o jogo? Envie no link:",
     masterConfirmTitle: "Apagar tudo?",
     masterConfirmText: "O master reset apaga a partida, as estrelas, os textos lidos, o modo de jogo e os termos aceitos. Não tem como desfazer.",
     eraseIt: "Pode apagar"

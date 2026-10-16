@@ -176,6 +176,8 @@ td:last-child{text-align:right;font-family:var(--mono);font-size:12.5px;font-wei
 .dialog h2{font-family:var(--mono);font-weight:800;font-size:clamp(18px,3.4vw,24px);margin:0 36px 6px 0;text-wrap:balance}
 .dialog .sub{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin:0 0 14px}
 .dialog .body p{margin:0 0 12px;max-width:62ch}
+.dialog .body p.contribute{font-family:var(--ui);font-size:14px;line-height:1.5;color:var(--muted);border-top:1px solid var(--line);padding-top:12px;margin-top:16px}
+.dialog .body a{color:var(--kw);font-family:var(--mono);font-size:13px;display:inline-block;overflow-wrap:anywhere}
 .dialog .body.reading p{font-family:var(--read);font-size:18px;line-height:1.6}
 .dialog ol{padding-left:22px;margin:0 0 14px;display:grid;gap:9px;font-size:14px}
 .dialog ol b{font-family:var(--mono);font-size:12.5px}
