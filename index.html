@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vibecoder Incremental</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="An incremental game where every click is a token spent.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wdth,wght@75..112.5,300..800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!--
+  Static text is filled in from the active locale: data-i18n sets textContent,
+  data-i18n-html sets innerHTML, data-i18n-aria sets aria-label. Keys point into
+  the locale object, for example "ui.debtTitle" → LOCALES.en.ui.debtTitle.
+-->
+<div class="wrap">
+<header class="top">
+  <div class="brand">
+    <h1>vibecoder incremental<span class="cursor" aria-hidden="true"></span><span class="stars" id="stars"></span></h1>
+    <p data-i18n="ui.tagline"></p>
+  </div>
+  <div class="meters">
+    <div class="meter large"><span class="value" id="meter-spent">0</span><span class="label"><span data-i18n="ui.tokensSpent"></span> <span class="rate" id="meter-rate"></span></span></div>
+    <div class="meter medium"><span class="value" id="meter-budget">0</span><span class="label" data-i18n="ui.budget"></span></div>
+    <div class="controls">
+      <span class="chip" id="meter-tier" data-i18n-title="ui.leaderboardTitle"></span>
+      <span class="chip kw" id="meter-mode" hidden></span>
+      <select class="lang" id="lang-select" data-i18n-aria="ui.language"></select>
+      <button class="icon-btn" id="theme-toggle" data-i18n-aria="ui.themeToggle">◐</button>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" role="tablist">
+  <button class="tab" role="tab" aria-selected="true" data-panel="prompt" id="tab-prompt"><span data-i18n="ui.tabs.prompt"></span></button>
+  <button class="tab" role="tab" aria-selected="false" data-panel="library" id="tab-library"><span data-i18n="ui.tabs.library"></span> <span class="count" id="library-count">0/30</span><span class="dot" id="library-dot" hidden></span></button>
+  <button class="tab" role="tab" aria-selected="false" data-panel="about" id="tab-about"><span data-i18n="ui.tabs.about"></span></button>
+</nav>
+
+<section class="panel" id="panel-prompt">
+  <div class="grid">
+    <div class="column">
+      <div class="card">
+        <h2><span data-i18n="ui.chatTitle"></span> <span class="note" data-i18n="ui.chatNote"></span></h2>
+        <div class="log" id="chat-log" aria-live="polite"></div>
+        <div class="composer" id="composer">
+          <div style="min-width:0">
+            <div class="next-prompt" id="next-prompt"></div>
+            <div class="cost"><span data-i18n="ui.sendBurns"></span> <b id="click-value">1 token</b></div>
+          </div>
+          <button class="send" id="send-button"><span data-i18n="ui.send"></span> <kbd>Enter</kbd></button>
+        </div>
+        <div class="stat-row">
+          <div><b id="stat-prompts">0</b><span data-i18n="ui.promptsSent"></span></div>
+          <div><b id="stat-multiplier">×1</b><span data-i18n="ui.libraryBonus"></span></div>
+          <div><b id="stat-agents">0</b><span data-i18n="ui.agentsRunning"></span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2><span data-i18n="ui.debtTitle"></span> <span class="note" data-i18n="ui.debtNote"></span></h2>
+        <p class="hint" data-i18n="ui.debtHint"></p>
+        <div class="debt-figure"><b id="debt-percent">0%</b><span id="debt-effect"></span></div>
+        <div class="bar" id="debt-bar"><i id="debt-fill"></i></div>
+        <div class="buttons">
+          <button class="btn" id="read-button"><span data-i18n="ui.readCode"></span> <small id="read-cost"></small></button>
+          <button class="btn" id="rewrite-button"><span data-i18n="ui.rewrite"></span> <small id="rewrite-cost"></small></button>
+        </div>
+      </div>
+      <div class="card">
+        <h2 data-i18n="ui.setupTitle"></h2>
+        <p class="hint" data-i18n="ui.setupHint"></p>
+        <div class="list" id="setup-list"></div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="card">
+        <div class="card-head">
+          <h2><span data-i18n="ui.producersTitle"></span> <span class="note" data-i18n="ui.producersNote"></span></h2>
+          <div class="amount" role="group" data-i18n-aria="ui.buyAmount"><button aria-pressed="true" data-amount="1">×1</button><button aria-pressed="false" data-amount="10">×10</button><button aria-pressed="false" data-amount="max" data-i18n="ui.max"></button></div>
+        </div>
+        <p class="hint" data-i18n="ui.producersHint"></p>
+        <div class="list" id="producer-list"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="panel-library" hidden>
+  <div class="library">
+    <div class="card">
+      <h2 data-i18n="ui.libraryTitle"></h2>
+      <p class="hint" data-i18n="ui.libraryHint"></p>
+      <div class="shelves" role="group" data-i18n-aria="ui.shelves">
+        <button data-shelf="skills" aria-pressed="true"><b data-i18n="shelves.skills.name"></b><span id="shelf-count-skills">0/10</span></button>
+        <button data-shelf="plugins" aria-pressed="false"><b data-i18n="shelves.plugins.name"></b><span id="shelf-count-plugins">0/10</span></button>
+        <button data-shelf="agents" aria-pressed="false"><b data-i18n="shelves.agents.name"></b><span id="shelf-count-agents">0/10</span></button>
+      </div>
+      <p class="hint" id="shelf-hint" style="margin-top:0"></p>
+      <div id="file-list"></div>
+    </div>
+    <div class="reader" id="reader"></div>
+  </div>
+</section>
+
+<section class="panel" id="panel-about" hidden>
+  <div class="grid">
+    <div class="column">
+      <div class="card prose">
+        <h2 data-i18n="ui.aboutTitle"></h2>
+        <div id="about-text" style="margin-top:10px"></div>
+      </div>
+      <div class="card">
+        <h2 data-i18n="ui.clearTitle"></h2>
+        <p class="hint" id="clear-note"></p>
+        <div class="buttons" style="margin-top:0">
+          <button class="btn primary" id="clear-button" data-i18n="ui.runClear"></button>
+        </div>
+      </div>
+      <div class="card">
+        <h2 data-i18n="ui.masterTitle"></h2>
+        <p class="hint" data-i18n="ui.masterHint"></p>
+        <button class="btn danger" id="master-button" data-i18n="ui.eraseAll"></button>
+      </div>
+    </div>
+    <div class="card">
+      <h2 data-i18n="ui.statsTitle"></h2>
+      <table style="margin-top:8px"><tbody id="stats-table"></tbody></table>
+    </div>
+  </div>
+</section>
+<p class="footer" data-i18n="ui.footer"></p>
+</div>
+
+<div class="overlay" id="overlay" hidden><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title" id="dialog"></div></div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script src="locales/en.js"></script>
+<script src="locales/pt-BR.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
