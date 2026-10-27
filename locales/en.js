@@ -173,6 +173,7 @@ window.LOCALES.en = {
     ],
     startWith: x => "Start with tokens ×" + x,
     contribute: "Have a pull request to improve the game? Send it at the link:",
+    contributors: "Made by",
     masterConfirmTitle: "Erase everything?",
     masterConfirmText: "The master reset erases the run, the stars, the texts you read, the game mode and the accepted terms. There is no undo.",
     eraseIt: "Erase it"

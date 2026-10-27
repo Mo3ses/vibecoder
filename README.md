@@ -31,6 +31,9 @@ styles.css        all styles; colors are theme tokens with light and dark values
 game.js           engine: game data, economy, rendering, dialogs, main loop
 locales/en.js     English text (default and fallback)
 locales/pt-BR.js  Brazilian Portuguese text
+contributors.js   GitHub usernames shown on the final screen, updated automatically
+VERSION           current game version, bumped automatically
+scripts/          bump-version.js and add-contributor.js, run by the workflow in .github/workflows/
 ```
 
 `game.js` holds numbers and rules only. Every string the player reads lives in `locales/`. Arrays in the engine (`PRODUCERS`, `SETUP`, the shelves) are matched to the locale arrays by position.
@@ -64,6 +67,10 @@ All tuning constants are at the top of `game.js`: producer costs and rates, setu
 ### Prompts and replies
 
 `prompts` and `replies` in each locale are the chat lines picked at random on every send. Add more; they don't need to match between languages.
+
+### Versioning and credits
+
+Every merged pull request adds 1 to the last number of the version (for example 0.0.0.9 becomes 0.0.0.10) and adds its author to the contributors listed on the game's final screen. A GitHub Actions workflow does both after the merge: `scripts/bump-version.js` updates `VERSION`, the page title and this README, and `scripts/add-contributor.js` updates `contributors.js`. Don't change the version or the contributors by hand in your pull request.
 
 ## Origin
 

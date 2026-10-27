@@ -594,9 +594,17 @@ function runClear() {
   showDialog({
     title: t("dialogs.clearedTitle"), reading: true,
     html: t("dialogs.clearedText").map(p => "<p>" + escapeHtml(p) + "</p>").join("") +
-      '<p class="contribute">' + escapeHtml(t("dialogs.contribute")) + ' <a href="' + REPOSITORY_URL + '" target="_blank" rel="noopener">' + REPOSITORY_URL.replace("https://", "") + "</a></p>",
+      '<p class="contribute">' + escapeHtml(t("dialogs.contribute")) + ' <a href="' + REPOSITORY_URL + '" target="_blank" rel="noopener">' + REPOSITORY_URL.replace("https://", "") + "</a></p>" +
+      contributorsHtml(),
     buttons: [{ label: tf("dialogs.startWith", prestigeMultiplier()), style: "primary" }]
   });
+}
+// "Made by" line with a link to each contributor's GitHub profile (contributors.js).
+function contributorsHtml() {
+  const names = (window.CONTRIBUTORS || []).filter(name => /^[A-Za-z0-9-]+$/.test(name));
+  if (!names.length) return "";
+  return '<p class="contributors">' + escapeHtml(t("dialogs.contributors")) + ": " +
+    names.map(name => '<a href="https://github.com/' + name + '" target="_blank" rel="noopener">@' + name + "</a>").join(", ") + "</p>";
 }
 function confirmMasterReset() {
   showDialog({

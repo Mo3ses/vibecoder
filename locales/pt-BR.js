@@ -167,6 +167,7 @@ window.LOCALES["pt-BR"] = {
     ],
     startWith: x => "Começar com tokens ×" + x,
     contribute: "Tem uma pull request para melhorar o jogo? Envie no link:",
+    contributors: "Feito por",
     masterConfirmTitle: "Apagar tudo?",
     masterConfirmText: "O master reset apaga a partida, as estrelas, os textos lidos, o modo de jogo e os termos aceitos. Não tem como desfazer.",
     eraseIt: "Pode apagar"
